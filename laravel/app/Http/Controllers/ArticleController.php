@@ -57,4 +57,16 @@ class ArticleController extends Controller
         $article->fill($request->all())->save();
         return redirect()->route('articles.index');
     }
+
+    public function destroy(Article $article) //DI
+    {
+        $article->delete();
+        return redirect()->route('articles.index');
+    }
+
+    public function show(Article $article)
+    {
+        return view('articles.show', ['article' => $article]);
+
+    }
 }
