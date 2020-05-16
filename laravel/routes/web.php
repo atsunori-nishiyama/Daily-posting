@@ -20,4 +20,6 @@
 // use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
-Route::get('/', 'ArticleController@index');
+Route::get('/', 'ArticleController@index')->name('articles.index');
+Route::resource('/articles', 'ArticleController')->except(['index'])->middleware('auth');
+//'auth':リクエストをコントローラーで処理する前にユーザーがログイン済みであるかどうかをチェック

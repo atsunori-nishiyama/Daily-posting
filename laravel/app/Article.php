@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Article extends Model
 {
+    protected $fillable = [
+        'title',
+        'body',
+    ];
+
     //$article->user->nameとコードを書くことで、記事モデルから紐付くユーザーモデルのプロパティ(ここではname)にアクセスできるようになる
     //userメソッドの戻り値が、BelongsToクラスであることを宣言
     public function user(): BelongsTo 
