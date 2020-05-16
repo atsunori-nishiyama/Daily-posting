@@ -46,4 +46,9 @@ class ArticleController extends Controller
         $article->save();
         return redirect()->route('articles.index');
     }
+
+    public function edit(Article $article) //DI:型宣言 new $articleを作成
+    {
+        return view('articles.edit', ['article' => $article]);
+    }
 }
