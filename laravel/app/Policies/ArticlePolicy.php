@@ -16,9 +16,10 @@ class ArticlePolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny(?User $user) // [?]引数がnullであることも許容
     {
         //
+        return true;
     }
 
     /**
@@ -28,9 +29,10 @@ class ArticlePolicy
      * @param  \App\Article  $article
      * @return mixed
      */
-    public function view(User $user, Article $article)
+    public function view(?User $user, Article $article) // [?]引数がnullであることも許容
     {
         //
+        return true;
     }
 
     /**
@@ -42,6 +44,7 @@ class ArticlePolicy
     public function create(User $user)
     {
         //
+        return true;
     }
 
     /**
@@ -54,6 +57,7 @@ class ArticlePolicy
     public function update(User $user, Article $article)
     {
         //
+        return $user->id === $article->user_id;
     }
 
     /**
@@ -66,6 +70,7 @@ class ArticlePolicy
     public function delete(User $user, Article $article)
     {
         //
+        return $user->id === $article->user_id;
     }
 
     /**

@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
+    public function __construct() //クラスのインスタンスが生成された時に初期処理
+    {
+        $this->authorizeResource(Article::class, 'article');
+    }
     //
     public function index()
     {
