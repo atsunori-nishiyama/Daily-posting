@@ -25,7 +25,14 @@
               <label for="password">パスワード</label>
               <input class="form-control" type="password" name="password" required> 
             </div>
+
             <input type="hidden" name="remember" id="remember" value="on">
+            
+            <div class="text-left">
+              <a href="{{ route('password.request') }}" class="card-text">パスワードを忘れた方</a>
+            </div>
+            
+            
             <button class="btn btn-block #3b465e mdb-color darken-1 mt-2 mb-2 text-light" type="submit">ログイン</button>
             </form>
             <div class="mt-0">
