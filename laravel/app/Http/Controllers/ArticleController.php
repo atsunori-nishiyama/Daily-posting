@@ -73,4 +73,29 @@ class ArticleController extends Controller
         return view('articles.show', ['article' => $article]);
 
     }
+
+    public function like(Request $request, Article $article)
+    {
+        $article->likes()->detach($request->user()->id);
+        //記事モデルと、リクエストを送信したユーザーのユーザーモデルの両者を紐づけるlikesテーブルのレコードが新規登録
+        //detachメソッドであれば、逆に削除
+        //2重いいねの防止策(先に削除してからattach)
+        $article->likes()->attach($request->user()->id);
+
+        return [
+            'id' => $article->id,
+            'countLikes' => $article->count_likes,
+            //likesテーブルを更新した後は、上記の連想配列をクライアントにレスポンス
+        ];
+    }
+
+    public function unlike(Request $request, Article $article)
+    {
+        $article->likes()->detach($request->user()->id);
+
+        return [
+            'id' => $article->id,
+            'countLikes' => $article->count_likes,
+        ];
+    }
 }

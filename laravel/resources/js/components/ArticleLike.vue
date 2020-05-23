@@ -8,7 +8,7 @@
        :class="{'red-text':this.isLikedBy}" 
       />
     </button>
-    10
+    {{ countLikes }}
   </div>
 </template>
 <script>
@@ -19,12 +19,17 @@
         type: Boolean,
         default: false,
       },
+      initialCountLikes: {
+        type: Number,
+        default: 0,
+      },
     },
     data() {
       return {
         //プロパティinitialIsLikedByの値をそのままデータisLikedByにセット
-        //データisLikedByを別途定義して、こちらを利用する
+        //データisLikedByを別途定義して、こちらを利用する※countLikes:も同様
         isLikedBy: this.initialIsLikedBy,
+        countLikes: this.initialCountLikes,
       }
     },
   }

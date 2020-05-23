@@ -45,4 +45,9 @@ class Article extends Model
             //型キャスト:(bool)と記述することで変数を論理値、つまりtrueかfalseに変換
     }
 
+    public function getCountLikesAttribute(): int
+    {
+        return $this->likes->count();
+    }
+
 }
