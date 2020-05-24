@@ -31,5 +31,5 @@ Route::resource('/articles', 'ArticleController')->only(['show']);
 //それまでに定義した内容(prefix('articles')とname('articles.'))が、groupメソッドにクロージャ(無名関数)として渡した各ルーティングにまとめて適用
 Route::prefix('articles')->name('articles.')->group(function (){
   Route::put('/{article}/like', 'ArticleController@like')->name('like')->middleware('auth');
-  Route::delete('/{article}/like', 'ArticleController@like')->name('unlike')->middleware('auth');
+  Route::delete('/{article}/like', 'ArticleController@unlike')->name('unlike')->middleware('auth');
 });

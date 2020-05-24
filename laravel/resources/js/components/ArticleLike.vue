@@ -6,6 +6,7 @@
     >
       <i class="fas fa-heart mr-1"
        :class="{'red-text':this.isLikedBy}" 
+       @click="clickLike"
       />
     </button>
     {{ countLikes }}
@@ -23,6 +24,13 @@
         type: Number,
         default: 0,
       },
+      authorized: {
+        type: Boolean,
+        default: false,
+      },
+      endpoint: {
+        type: String,
+      }
     },
     data() {
       return {
@@ -31,6 +39,31 @@
         isLikedBy: this.initialIsLikedBy,
         countLikes: this.initialCountLikes,
       }
+    },
+    methods: {
+      clickLike() {
+        if (!this.authorized) {
+          alert('いいね昨日はログイン中のみ使用できます')
+          return
+        }
+
+        this.isLikedBy
+          ? this.unlike()
+          : this.like()
+      },
+      async like() {
+        //URIarticles/{article}/likeに対して、HTTPのPUTメソッドでリクエスト
+        const responce = await axios.put(this.endpoint) 
+
+        this.isLikedBy = true
+        this.countLikes = responce.data.countLikes //いいね数を取得、いいね数の表示が変更
+      },
+      async unlike() {
+        const responce = await axios.delete(this.endpoint)
+
+        this.isLikedBy = false
+        this.countLikes = responce.data.countLikes
+      },
     },
   }
 </script>
