@@ -49,6 +49,12 @@ class ArticleController extends Controller
         //articlesテーブルにレコードが新規登録
         $article->save();
         return redirect()->route('articles.index');
+
+        $request->tags->each(function ($tagsName) use ($article) { //use: クロージャの中の処理で変数$articleを使うため
+            $tag = Tag::firstOrCreate(['name' => $tagName]);
+            //firstOrCreate: 引数として渡した「カラム名と値のペア」を持つレコードがテーブルに存在するかどうかを探し、もし存在すればそのモデルを返す
+            $article->tags()->attach($tag); //記事とタグの紐付け(article_tagテーブルへのレコードの保存)
+        });
     }
 
     public function edit(Article $article) //DI:型宣言 new $articleを作成
