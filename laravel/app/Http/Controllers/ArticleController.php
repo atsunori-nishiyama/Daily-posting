@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Article;
+use App\Tag;
 use App\Http\Requests\ArticleRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -48,23 +50,40 @@ class ArticleController extends Controller
         $article->user_id = $request->user()->id;
         //articlesテーブルにレコードが新規登録
         $article->save();
-        return redirect()->route('articles.index');
 
-        $request->tags->each(function ($tagsName) use ($article) { //use: クロージャの中の処理で変数$articleを使うため
+        $request->tags->each(function ($tagName) use ($article) { //use: クロージャの中の処理で変数$articleを使うため
             $tag = Tag::firstOrCreate(['name' => $tagName]);
             //firstOrCreate: 引数として渡した「カラム名と値のペア」を持つレコードがテーブルに存在するかどうかを探し、もし存在すればそのモデルを返す
             $article->tags()->attach($tag); //記事とタグの紐付け(article_tagテーブルへのレコードの保存)
         });
+        return redirect()->route('articles.index');
     }
 
     public function edit(Article $article) //DI:型宣言 new $articleを作成
     {
-        return view('articles.edit', ['article' => $article]);
+        $tagNames = $article->tags->map(function ($tag) {
+            return ['text' => $tag->name];
+        });
+
+        // return view('articles.edit', ['article' => $article]);
+
+        return view('articles.edit', [
+            'article' => $article,
+            'tagNames' => $tagNames,
+        ]);
     }
 
     public function update(ArticleRequest $request, Article $article)
     {
         $article->fill($request->all())->save();
+
+        //detachメソッドを引数無しで使うと、そのリレーションを紐付ける中間テーブルのレコードが全削除
+        $article->tags()->detach();
+        $request->tags->each(function ($tagName) use ($article) {
+            $tag = Tag::firstOrCreate(['name' => $tagName]);
+            $article->tags()->attach($tag);
+        });
+
         return redirect()->route('articles.index');
     }
 

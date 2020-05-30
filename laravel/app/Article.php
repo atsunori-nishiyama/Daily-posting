@@ -52,7 +52,7 @@ class Article extends Model
 
     public function tags(): BelongsToMany
     {
-        //事モデルとタグモデルの関係は多対多となりbelongsToManyメソッドを使用
+        //モデルとタグモデルの関係は多対多となりbelongsToManyメソッドを使用
         //created_at、updated_atタイムスタンプを自動的に保守したい場合は、withTimestampsメソッドをリレーション定義
         return $this->belongsToMany('App\Tag')->withTimestamps();
     }
