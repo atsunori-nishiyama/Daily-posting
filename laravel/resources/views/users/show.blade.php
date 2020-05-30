@@ -11,6 +11,12 @@
           <a href="{{ route('users.show', ['name' => $user->name]) }}" class="text-drak">
             <i class="far fa-smile-beam fa-3x mr-1"></i>
           </a>
+          @if( Auth::id() !== $user->id )
+            <follow-button
+              class="ml-auto"
+            >
+            </follow-button>
+          @endif
         </div>
         <h2 class="h5 card-title m-0">
           <a href="{{ route('users.show', ['name' => $user->name]) }}" class="text-dark">
