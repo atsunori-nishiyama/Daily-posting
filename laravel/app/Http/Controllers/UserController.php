@@ -12,8 +12,13 @@ class UserController extends Controller
         //firstメソッドを使ってコレクションから最初のユーザーモデル1件を取り出し、変数$userに代入
         $user = User::where('name', $name)->first();
 
+        //ユーザーの投稿した記事モデルをコレクションで取得
+        $articles = $user->articles->sortByDesc('created_at');
+
+        //変数$articlesをviewメソッドの第二引数に追加し、ユーザーページのBladeにに渡す
         return view('users.show', [
             'user' => $user,
+            'articles' => $articles,
         ]);
     }
 
