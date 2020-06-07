@@ -17,7 +17,8 @@ class ArticleController extends Controller
     //
     public function index()
     {
-        $articles = Article::all()->sortByDesc('created_at'); //降順で並び替え（コレクション）
+        $articles = Article::all()->sortByDesc('created_at')  //降順で並び替え（コレクション）
+            ->load(['user', 'likes', 'tags']);
 
 
         return view('articles.index', ['articles' => $articles]);
